@@ -1,6 +1,6 @@
 package enums;
 
-public class TipoFlor {
+public enum TipoFlor {
     ROSA,
     TULIPA,
     MARGARIDA,

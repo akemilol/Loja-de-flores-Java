@@ -1,4 +1,6 @@
 package enums;
 
-public class TipoFlor  {
+public class TipoFlor {
+
+
 }

@@ -3,7 +3,9 @@ import repository.LojaRepository;
 import repository.LojaRepositoryImpl;
 import enums.CategoriaProduto;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,6 +22,9 @@ public class Main {
                     "\n4- Consultar por nome" +
                     "\n5- Alterar" +
                     "\n6- Excluir" +
+                    "\n7- Buscar e exibir por categoria (forEach)" +
+                    "\n8- Buscar e retornar por categoria (collect)" +
+                    "\n9- Buscar em duas listas de categorias" +
                     "\nDigite a operação desejada: ");
             op = leitor.nextInt();
             leitor.nextLine();  // Consome a nova linha
@@ -117,6 +122,25 @@ public class Main {
                         System.out.println("Produto não encontrado.");
                     }
                     break;
+                // Buscar e exibir por categoria usando forEach
+                case 7:
+                    System.out.print("Digite a categoria para buscar: ");
+                    String categoriaBusca = leitor.nextLine();
+                    buscarEExibirComForEach(produtoRepository.listar(), categoriaBusca);
+                    break;
+                // Buscar e retornar por categoria usando collect
+                case 8:
+                    System.out.print("Digite a categoria para buscar: ");
+                    categoriaBusca = leitor.nextLine();
+                    List<Produto> resultado = buscarERetornarComCollect(produtoRepository.listar(), categoriaBusca);
+                    System.out.println("Produtos encontrados: ");
+                    resultado.forEach(System.out::println);
+                    break;
+                // Buscar em duas listas de categorias
+                case 9:
+                    List<String> categorias = List.of("Eletrônicos", "Móveis");
+                    buscarEmDuasListas(produtoRepository.listar(), categorias);
+                    break;
                 // Sair
                 case 0:
                     System.out.println("Saindo...");
@@ -131,5 +155,26 @@ public class Main {
         } while (op != 0);
 
         leitor.close();
+    }
+
+
+    public static void buscarEExibirComForEach(List<Produto> produtos, String categoria) {
+        produtos.stream()
+                .filter(produto -> produto.getCategoria().toString().equalsIgnoreCase(categoria))
+                .forEach(produto -> System.out.println(produto));
+    }
+
+
+    public static List<Produto> buscarERetornarComCollect(List<Produto> produtos, String categoria) {
+        return produtos.stream()
+                .filter(produto -> produto.getCategoria().toString().equalsIgnoreCase(categoria))
+                .collect(Collectors.toList());
+    }
+
+
+    public static void buscarEmDuasListas(List<Produto> produtos, List<String> categorias) {
+        produtos.stream()
+                .filter(produto -> categorias.contains(produto.getCategoria().toString()))
+                .forEach(produto -> System.out.println(produto));
     }
 }

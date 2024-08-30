@@ -1,5 +1,3 @@
-import models.Flor;
-import enums.TipoFlor;
 import repository.FlorRepository;
 
 import java.util.List;

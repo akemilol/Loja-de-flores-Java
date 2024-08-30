@@ -13,7 +13,7 @@ public class Produto {
     private CategoriaProduto categoria;
 
     // Construtores
-    Produto(int id, String nome, String descricao, double preco, CategoriaProduto categoria) {
+    public Produto(int id, String nome, String descricao, double preco, CategoriaProduto categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;

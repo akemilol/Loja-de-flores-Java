@@ -3,9 +3,14 @@ import repository.LojaRepository;
 import repository.LojaRepositoryImpl;
 import enums.CategoriaProduto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+//Rm: 558191 Nome: Mirela Pinheiro Silva Rodrigues
+//Rm: 557177 Nome: Valéria Conceição dos Santos
+
 
 public class Main {
     public static void main(String[] args) {
@@ -88,14 +93,14 @@ public class Main {
                 case 5:
                     System.out.print("Digite o ID do produto a alterar: ");
                     int idAlterar = leitor.nextInt();
-                    leitor.nextLine();  // Consome a nova linha
+                    leitor.nextLine();
                     System.out.print("Digite o novo nome do produto: ");
                     String novoNome = leitor.nextLine();
                     System.out.print("Digite a nova descrição do produto: ");
                     String novaDescricao = leitor.nextLine();
                     System.out.print("Digite o novo preço do produto: ");
                     double novoPreco = leitor.nextDouble();
-                    leitor.nextLine();  // Consome a nova linha
+                    leitor.nextLine();
 
                     // Alterando a categoria
                     System.out.println("Escolha a nova categoria do produto: ");
@@ -122,23 +127,28 @@ public class Main {
                         System.out.println("Produto não encontrado.");
                     }
                     break;
-                // Buscar e exibir por categoria usando forEach
+                //forEach
                 case 7:
-                    System.out.print("Digite a categoria para buscar: ");
+                    System.out.print("Digite a categoria para buscar (forEach): ");
                     String categoriaBusca = leitor.nextLine();
                     buscarEExibirComForEach(produtoRepository.listar(), categoriaBusca);
                     break;
-                // Buscar e retornar por categoria usando collect
+                //collect
                 case 8:
-                    System.out.print("Digite a categoria para buscar: ");
+                    System.out.print("Digite a categoria para buscar (collect): ");
                     categoriaBusca = leitor.nextLine();
                     List<Produto> resultado = buscarERetornarComCollect(produtoRepository.listar(), categoriaBusca);
                     System.out.println("Produtos encontrados: ");
                     resultado.forEach(System.out::println);
                     break;
-                // Buscar em duas listas de categorias
+                // Buscar em duas listas de categorias diferentes
                 case 9:
-                    List<String> categorias = List.of("Eletrônicos", "Móveis");
+                    System.out.println("Digite duas categorias para buscar:");
+                    List<String> categorias = new ArrayList<>();
+                    for (int i = 0; i < 2; i++) {
+                        System.out.print("Categoria " + (i + 1) + ": ");
+                        categorias.add(leitor.nextLine());
+                    }
                     buscarEmDuasListas(produtoRepository.listar(), categorias);
                     break;
                 // Sair
@@ -157,24 +167,24 @@ public class Main {
         leitor.close();
     }
 
-
+    //forEach
     public static void buscarEExibirComForEach(List<Produto> produtos, String categoria) {
         produtos.stream()
                 .filter(produto -> produto.getCategoria().toString().equalsIgnoreCase(categoria))
-                .forEach(produto -> System.out.println(produto));
+                .forEach(System.out::println);
     }
 
-
+    //collect
     public static List<Produto> buscarERetornarComCollect(List<Produto> produtos, String categoria) {
         return produtos.stream()
                 .filter(produto -> produto.getCategoria().toString().equalsIgnoreCase(categoria))
                 .collect(Collectors.toList());
     }
 
-
+    //duas categorias específicas
     public static void buscarEmDuasListas(List<Produto> produtos, List<String> categorias) {
         produtos.stream()
                 .filter(produto -> categorias.contains(produto.getCategoria().toString()))
-                .forEach(produto -> System.out.println(produto));
+                .forEach(System.out::println);
     }
 }
